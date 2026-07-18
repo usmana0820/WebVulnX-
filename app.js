@@ -588,10 +588,6 @@
       item.classList.add("active");
       const page = item.dataset.page;
 
-      if (page === "about") {
-        document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
-        return;
-      }
       if (page === "dashboard") {
         window.scrollTo({ top: 0, behavior: "smooth" });
         return;

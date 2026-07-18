@@ -105,7 +105,6 @@ The dashboard includes:
 - Top vulnerabilities list
 - Recent scans with risk badges
 - Detection workflow steps
-- Project Idea section (Introduction, Problem Statement, Proposed Solution)
 
 ---
 
