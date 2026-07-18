@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebVulnX — Dashboard & Reports</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell d-flex">
+    <!-- Sidebar -->
+    <aside class="sidebar d-flex flex-column align-items-center py-3" id="sidebar">
+      <button class="sidebar-toggle btn btn-link text-white mb-4" type="button" aria-label="Toggle menu" id="sidebarToggle">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+      <nav class="sidebar-nav d-flex flex-column gap-2 w-100 px-2">
+        <a href="#dashboard" class="nav-item active" title="Dashboard" data-page="dashboard">
+          <i class="bi bi-house-door"></i>
+          <span class="nav-label">Home</span>
+        </a>
+        <a href="#scan" class="nav-item" title="New Scan" data-page="scan">
+          <i class="bi bi-shield-check"></i>
+          <span class="nav-label">Scan</span>
+        </a>
+        <a href="#analytics" class="nav-item" title="Analytics" data-page="analytics">
+          <i class="bi bi-bar-chart"></i>
+          <span class="nav-label">Analytics</span>
+        </a>
+        <a href="#reports" class="nav-item" title="Reports" data-page="reports">
+          <i class="bi bi-file-earmark-text"></i>
+          <span class="nav-label">Reports</span>
+        </a>
+        <a href="#about" class="nav-item" title="Project Idea" data-page="about">
+          <i class="bi bi-lightbulb"></i>
+          <span class="nav-label">About</span>
+        </a>
+        <a href="#settings" class="nav-item" title="Settings" data-page="settings">
+          <i class="bi bi-gear"></i>
+          <span class="nav-label">Settings</span>
+        </a>
+      </nav>
+      <div class="mt-auto px-2 w-100">
+        <div class="brand-mark text-center">
+          <i class="bi bi-shield-lock-fill"></i>
+          <span class="nav-label brand-text">WebVulnX</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content flex-grow-1">
+      <header class="page-header d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <p class="eyebrow mb-1">WebVulnX</p>
+          <h1 class="page-title mb-0">Dashboard &amp; Reports</h1>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-outline-purple btn-sm" type="button" id="refreshBtn">
+            <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+          </button>
+          <button class="btn btn-purple btn-sm" type="button" id="openDemoBtn">
+            <i class="bi bi-play-circle me-1"></i> Try Dummy Scan
+          </button>
+        </div>
+      </header>
+
+      <!-- Dummy Demo Panel -->
+      <section class="panel demo-banner mb-4" id="demoScan">
+        <div class="row align-items-center g-3">
+          <div class="col-lg-7">
+            <p class="eyebrow mb-2">Live Demo Mode</p>
+            <h2 class="panel-title mb-2">Show how WebVulnX scans &amp; detects</h2>
+            <p class="panel-sub mb-0">
+              Run a dummy scan process: crawl the target → launch tools → detect SQLi / XSS →
+              classify risk → prepare mitigation report. Perfect for presentations.
+            </p>
+          </div>
+          <div class="col-lg-5">
+            <div class="demo-quick-form">
+              <label for="demoUrl" class="form-label small fw-semibold mb-1">Target URL (demo)</label>
+              <div class="input-group">
+                <input type="url" class="form-control" id="demoUrl" value="https://vuln-demo.example.com" placeholder="https://target.com" />
+                <button class="btn btn-purple" type="button" id="startDemoBtn">
+                  <i class="bi bi-shield-check me-1"></i> Start Demo
+                </button>
+              </div>
+              <div class="demo-presets mt-2">
+                <button type="button" class="preset-chip" data-url="https://vuln-demo.example.com">High-risk site</button>
+                <button type="button" class="preset-chip" data-url="https://testsite.com">Medium-risk site</button>
+                <button type="button" class="preset-chip" data-url="https://myapp.com">Low-risk site</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats -->
+      <section class="row g-3 mb-4">
+        <div class="col-6 col-lg">
+          <div class="stat-card">
+            <span class="stat-label">Total Scans</span>
+            <span class="stat-value text-dark" id="statTotal">24</span>
+          </div>
+        </div>
+        <div class="col-6 col-lg">
+          <div class="stat-card">
+            <span class="stat-label">Vulnerabilities</span>
+            <span class="stat-value text-danger" id="statVulns">38</span>
+          </div>
+        </div>
+        <div class="col-6 col-lg">
+          <div class="stat-card">
+            <span class="stat-label">High Risk</span>
+            <span class="stat-value text-danger" id="statHigh">12</span>
+          </div>
+        </div>
+        <div class="col-6 col-lg">
+          <div class="stat-card">
+            <span class="stat-label">Medium Risk</span>
+            <span class="stat-value text-warning-custom" id="statMedium">18</span>
+          </div>
+        </div>
+        <div class="col-6 col-lg">
+          <div class="stat-card">
+            <span class="stat-label">Low Risk</span>
+            <span class="stat-value text-success-custom" id="statLow">8</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Charts + lists -->
+      <section class="row g-3 mb-4">
+        <div class="col-12 col-lg-4">
+          <div class="panel h-100">
+            <h2 class="panel-title">Vulnerabilities by Severity</h2>
+            <div class="severity-wrap d-flex align-items-center gap-4 mt-3">
+              <div class="donut-wrap">
+                <canvas id="severityChart" width="160" height="160"></canvas>
+              </div>
+              <div class="severity-legend">
+                <div class="legend-item">
+                  <span class="dot high"></span>
+                  <span>High</span>
+                  <strong id="pctHigh">32%</strong>
+                </div>
+                <div class="legend-item">
+                  <span class="dot medium"></span>
+                  <span>Medium</span>
+                  <strong id="pctMedium">47%</strong>
+                </div>
+                <div class="legend-item">
+                  <span class="dot low"></span>
+                  <span>Low</span>
+                  <strong id="pctLow">21%</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div class="panel h-100">
+            <h2 class="panel-title">Top Vulnerabilities</h2>
+            <ul class="vuln-list mt-3 mb-0" id="topVulns">
+              <li>
+                <div class="d-flex justify-content-between mb-1">
+                  <span>SQL Injection</span>
+                  <strong>12</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+              </li>
+              <li>
+                <div class="d-flex justify-content-between mb-1">
+                  <span>Cross-Site Scripting (XSS)</span>
+                  <strong>10</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:83%"></div></div>
+              </li>
+              <li>
+                <div class="d-flex justify-content-between mb-1">
+                  <span>Security Misconfiguration</span>
+                  <strong>8</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:67%"></div></div>
+              </li>
+              <li>
+                <div class="d-flex justify-content-between mb-1">
+                  <span>Sensitive Data Exposure</span>
+                  <strong>5</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:42%"></div></div>
+              </li>
+              <li>
+                <div class="d-flex justify-content-between mb-1">
+                  <span>Others</span>
+                  <strong>3</strong>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:25%"></div></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div class="panel h-100 d-flex flex-column">
+            <h2 class="panel-title">Recent Scans</h2>
+            <ul class="scan-list mt-3 flex-grow-1 mb-3" id="recentScans">
+              <li>
+                <div>
+                  <div class="scan-url">example.com</div>
+                  <div class="scan-time">Today, 10:30 AM</div>
+                </div>
+                <span class="badge-risk high">High</span>
+              </li>
+              <li>
+                <div>
+                  <div class="scan-url">testsite.com</div>
+                  <div class="scan-time">Today, 09:15 AM</div>
+                </div>
+                <span class="badge-risk medium">Medium</span>
+              </li>
+              <li>
+                <div>
+                  <div class="scan-url">myapp.com</div>
+                  <div class="scan-time">Yesterday, 4:42 PM</div>
+                </div>
+                <span class="badge-risk low">Low</span>
+              </li>
+              <li>
+                <div>
+                  <div class="scan-url">demo-shop.local</div>
+                  <div class="scan-time">Yesterday, 1:05 PM</div>
+                </div>
+                <span class="badge-risk high">High</span>
+              </li>
+            </ul>
+            <button class="btn btn-purple w-100" type="button" data-bs-toggle="modal" data-bs-target="#reportModal">
+              View Full Report
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Workflow + features -->
+      <section class="row g-3">
+        <div class="col-12">
+          <div class="panel">
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+              <div>
+                <h2 class="panel-title mb-1">Detection Workflow</h2>
+                <p class="panel-sub mb-0">Automated scan pipeline from discovery to remediation</p>
+              </div>
+            </div>
+            <div class="workflow-steps" id="workflowSteps">
+              <div class="step" data-step="0">
+                <div class="step-icon"><i class="bi bi-search"></i></div>
+                <span>Automated Scan</span>
+              </div>
+              <div class="step-connector"></div>
+              <div class="step" data-step="1">
+                <div class="step-icon"><i class="bi bi-gear-wide-connected"></i></div>
+                <span>Integrated Tools</span>
+              </div>
+              <div class="step-connector"></div>
+              <div class="step" data-step="2">
+                <div class="step-icon"><i class="bi bi-bug"></i></div>
+                <span>Vulnerability Detection</span>
+              </div>
+              <div class="step-connector"></div>
+              <div class="step" data-step="3">
+                <div class="step-icon"><i class="bi bi-speedometer2"></i></div>
+                <span>Risk Classification</span>
+              </div>
+              <div class="step-connector"></div>
+              <div class="step" data-step="4">
+                <div class="step-icon"><i class="bi bi-file-earmark-check"></i></div>
+                <span>Reports &amp; Recommendations</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="panel h-100">
+            <h2 class="panel-title">Core Features</h2>
+            <ul class="feature-list mt-3 mb-0">
+              <li><i class="bi bi-check2-circle"></i> Automated Scanning</li>
+              <li><i class="bi bi-check2-circle"></i> SQL Injection Detection</li>
+              <li><i class="bi bi-check2-circle"></i> XSS Detection</li>
+              <li><i class="bi bi-check2-circle"></i> Risk Classification</li>
+              <li><i class="bi bi-check2-circle"></i> Mitigation Recommendations</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="panel h-100">
+            <h2 class="panel-title">Technologies</h2>
+            <div class="tech-grid mt-3">
+              <span class="tech-chip">Python</span>
+              <span class="tech-chip">Flask</span>
+              <span class="tech-chip">OWASP ZAP</span>
+              <span class="tech-chip">SQLMap</span>
+              <span class="tech-chip">Nmap</span>
+              <span class="tech-chip">Bootstrap</span>
+              <span class="tech-chip">HTML / CSS / JS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="panel h-100">
+            <h2 class="panel-title">Threat Focus</h2>
+            <div class="threat-cards mt-3">
+              <div class="threat-card">
+                <i class="bi bi-database-exclamation text-danger"></i>
+                <div>
+                  <strong>SQL Injection</strong>
+                  <p class="mb-0">Detects unsafe query patterns and injection vectors.</p>
+                </div>
+              </div>
+              <div class="threat-card">
+                <i class="bi bi-code-slash text-danger"></i>
+                <div>
+                  <strong>XSS Attack</strong>
+                  <p class="mb-0">Flags reflected and stored cross-site scripting risks.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="panel h-100">
+            <h2 class="panel-title">Benefits</h2>
+            <ul class="feature-list mt-3 mb-0">
+              <li><i class="bi bi-lightning-charge"></i> Faster vulnerability discovery</li>
+              <li><i class="bi bi-layers"></i> Unified multi-tool scanning</li>
+              <li><i class="bi bi-graph-up"></i> Clear risk prioritization</li>
+              <li><i class="bi bi-clipboard-check"></i> Actionable remediation reports</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Project Idea -->
+      <section class="mt-4" id="about">
+        <div class="panel idea-hero mb-3">
+          <p class="eyebrow mb-2">Final Year Project</p>
+          <h2 class="idea-title mb-2">Project Idea</h2>
+          <p class="idea-project-name mb-0">
+            <i class="bi bi-shield-lock-fill me-2"></i>
+            WebVulnX — A Scalable Automated Framework for Detecting Vulnerabilities in Web Applications
+          </p>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-lg-4">
+            <article class="panel idea-card h-100">
+              <div class="idea-card-head">
+                <span class="idea-num">01</span>
+                <h3 class="panel-title mb-0">Introduction</h3>
+              </div>
+              <p class="idea-text mt-3 mb-0">
+                Web applications are widely used in almost every sector, including education, healthcare,
+                banking, and e-commerce. Due to rapid development and frequent updates, many web
+                applications are deployed with security flaws that can be exploited by attackers. Manual
+                vulnerability assessment is time-consuming and requires expert knowledge, which is not
+                always available. Therefore, there is a strong need for an automated and scalable solution
+                that can efficiently detect common web application vulnerabilities. This project focuses on
+                providing an automated framework that simplifies vulnerability detection and helps
+                developers and security teams identify risks at an early stage.
+              </p>
+            </article>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <article class="panel idea-card h-100">
+              <div class="idea-card-head">
+                <span class="idea-num">02</span>
+                <h3 class="panel-title mb-0">Problem Statement</h3>
+              </div>
+              <p class="idea-text mt-3 mb-0">
+                Many organizations rely on manual or single-tool-based security testing, which is
+                inefficient and error-prone. Existing vulnerability scanning tools often produce complex
+                technical outputs that are difficult for non-security professionals to understand.
+                Additionally, these tools are usually operated separately, making the overall assessment
+                process time-consuming and unstructured. Small development teams and students often lack
+                the resources and expertise to perform comprehensive security testing. As a result, web
+                applications remain vulnerable to common attacks such as SQL Injection and Cross-Site
+                Scripting (XSS).
+              </p>
+            </article>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <article class="panel idea-card h-100">
+              <div class="idea-card-head">
+                <span class="idea-num">03</span>
+                <h3 class="panel-title mb-0">Proposed Solution</h3>
+              </div>
+              <p class="idea-text mt-3 mb-0">
+                The proposed solution is a scalable automated framework that integrates multiple
+                open-source vulnerability scanning tools into a single system. The framework will
+                automatically scan web applications, detect common vulnerabilities, and classify them
+                based on risk severity. A user-friendly dashboard will present scan results in an
+                easy-to-understand format along with recommended mitigation steps. The system is designed
+                to be scalable, allowing future integration of additional tools and security checks. This
+                framework will reduce manual effort, improve accuracy, and make web security testing
+                accessible to both technical and non-technical users.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- New Scan Modal -->
+  <div class="modal fade" id="newScanModal" tabindex="-1" aria-labelledby="newScanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="newScanModalLabel">Start New Scan</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="scanForm">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="targetUrl" class="form-label">Target URL</label>
+              <input type="url" class="form-control" id="targetUrl" value="https://vuln-demo.example.com" placeholder="https://example.com" required />
+            </div>
+            <div class="mb-3">
+              <label for="scanType" class="form-label">Scan Type</label>
+              <select class="form-select" id="scanType">
+                <option value="full">Full Scan (Demo)</option>
+                <option value="sqli">SQL Injection Focus</option>
+                <option value="xss">XSS Focus</option>
+                <option value="quick">Quick Scan</option>
+              </select>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="deepScan" checked />
+              <label class="form-check-label" for="deepScan">Enable deep crawl &amp; integrated tools</label>
+            </div>
+            <p class="small text-muted mt-3 mb-0">
+              <i class="bi bi-info-circle me-1"></i>
+              This is a dummy process for demo — no real website is attacked.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-purple">
+              <i class="bi bi-play-fill me-1"></i> Launch Dummy Scan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dummy Scan Process Modal -->
+  <div class="modal fade" id="scanProcessModal" tabindex="-1" aria-labelledby="scanProcessLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content scan-process-modal">
+        <div class="modal-header">
+          <div>
+            <h2 class="modal-title fs-5" id="scanProcessLabel">Dummy Scan in Progress</h2>
+            <p class="mb-0 small text-muted" id="scanTargetLabel">Target: —</p>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeProcessBtn" disabled></button>
+        </div>
+        <div class="modal-body">
+          <div class="scan-progress-wrap mb-3">
+            <div class="d-flex justify-content-between small mb-1">
+              <span id="scanPhaseText">Initializing…</span>
+              <span id="scanPercentText">0%</span>
+            </div>
+            <div class="progress scan-progress">
+              <div class="progress-bar" id="scanProgressBar" role="progressbar" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="process-steps mb-4" id="processSteps">
+            <div class="process-step" data-process="0">
+              <div class="process-icon"><i class="bi bi-search"></i></div>
+              <div class="process-meta">
+                <strong>1. Automated Scan</strong>
+                <span>Crawling pages &amp; collecting endpoints</span>
+              </div>
+              <i class="bi bi-circle status-icon"></i>
+            </div>
+            <div class="process-step" data-process="1">
+              <div class="process-icon"><i class="bi bi-gear-wide-connected"></i></div>
+              <div class="process-meta">
+                <strong>2. Integrated Tools</strong>
+                <span>Running OWASP ZAP, SQLMap, Nmap</span>
+              </div>
+              <i class="bi bi-circle status-icon"></i>
+            </div>
+            <div class="process-step" data-process="2">
+              <div class="process-icon"><i class="bi bi-bug"></i></div>
+              <div class="process-meta">
+                <strong>3. Vulnerability Detection</strong>
+                <span>Checking SQLi, XSS &amp; misconfigurations</span>
+              </div>
+              <i class="bi bi-circle status-icon"></i>
+            </div>
+            <div class="process-step" data-process="3">
+              <div class="process-icon"><i class="bi bi-speedometer2"></i></div>
+              <div class="process-meta">
+                <strong>4. Risk Classification</strong>
+                <span>Scoring High / Medium / Low severity</span>
+              </div>
+              <i class="bi bi-circle status-icon"></i>
+            </div>
+            <div class="process-step" data-process="4">
+              <div class="process-icon"><i class="bi bi-file-earmark-check"></i></div>
+              <div class="process-meta">
+                <strong>5. Reports &amp; Recommendations</strong>
+                <span>Preparing mitigation steps</span>
+              </div>
+              <i class="bi bi-circle status-icon"></i>
+            </div>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-lg-6">
+              <div class="console-panel">
+                <div class="console-header">
+                  <span><i class="bi bi-terminal me-1"></i> Scan Console</span>
+                  <span class="console-live" id="consoleLive"><span class="pulse"></span> LIVE</span>
+                </div>
+                <div class="console-body" id="scanConsole"></div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="findings-panel" id="findingsPanel">
+                <div class="console-header">
+                  <span><i class="bi bi-exclamation-triangle me-1"></i> Detected Findings</span>
+                  <span class="small text-muted" id="findingsCount">Waiting…</span>
+                </div>
+                <div class="findings-body" id="findingsBody">
+                  <p class="text-muted small mb-0 p-3">Findings will appear as the dummy scan detects issues.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-summary d-none mt-3" id="resultSummary">
+            <div class="result-banner">
+              <i class="bi bi-check-circle-fill"></i>
+              <div>
+                <strong id="resultTitle">Scan Complete</strong>
+                <p class="mb-0" id="resultSubtitle">Dummy report prepared successfully.</p>
+              </div>
+            </div>
+            <div class="row g-2 mt-2" id="resultStats"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="closeDemoFooter" disabled>Close</button>
+          <button type="button" class="btn btn-outline-purple" id="rerunDemoBtn" disabled>
+            <i class="bi bi-arrow-repeat me-1"></i> Run Again
+          </button>
+          <button type="button" class="btn btn-purple" id="viewDemoReportBtn" disabled>
+            <i class="bi bi-file-earmark-text me-1"></i> View Prepared Report
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report Modal -->
+  <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="reportModalLabel">Full Vulnerability Report</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small mb-3">Generated by WebVulnX · Sample summary for demo</p>
+          <div class="table-responsive">
+            <table class="table table-sm align-middle report-table">
+              <thead>
+                <tr>
+                  <th>Target</th>
+                  <th>Issue</th>
+                  <th>Severity</th>
+                  <th>Recommendation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>example.com</td>
+                  <td>SQL Injection</td>
+                  <td><span class="badge-risk high">High</span></td>
+                  <td>Use parameterized queries / ORM</td>
+                </tr>
+                <tr>
+                  <td>example.com</td>
+                  <td>XSS (Reflected)</td>
+                  <td><span class="badge-risk high">High</span></td>
+                  <td>Encode output &amp; apply CSP</td>
+                </tr>
+                <tr>
+                  <td>testsite.com</td>
+                  <td>Security Misconfiguration</td>
+                  <td><span class="badge-risk medium">Medium</span></td>
+                  <td>Harden headers &amp; disable debug</td>
+                </tr>
+                <tr>
+                  <td>myapp.com</td>
+                  <td>Missing Security Headers</td>
+                  <td><span class="badge-risk low">Low</span></td>
+                  <td>Add HSTS, X-Frame-Options</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-purple" id="exportBtn">
+            <i class="bi bi-download me-1"></i> Export PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="appToast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="toastBody">Done</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
