@@ -1,135 +1,153 @@
-# WebVulnX
+# WebVulnX — Automated Web Vulnerability Detection Framework
 
-**A Scalable Automated Framework for Detecting Vulnerabilities in Web Applications**
+**A Scalable Framework for Detecting Vulnerabilities in Web Applications**
 
-WebVulnX is a final-year project dashboard that demonstrates how an automated vulnerability detection framework can scan web applications, detect common security flaws (such as SQL Injection and XSS), classify risk severity, and present clear mitigation recommendations through a user-friendly interface.
+WebVulnX is a final-year project that demonstrates how an automated web vulnerability detection framework can help identify, classify, and report common web security risks through a user-friendly dashboard.
 
----
+The current version provides an interactive frontend demonstration with simulated scan results, risk classification, vulnerability summaries, and mitigation recommendations. Integration with real scanning tools and a Python Flask backend is planned for future development.
 
-## Project Idea
+## 🎯 Project Objectives
 
-### 1. Introduction
+- Simplify the presentation of web application security findings.
+- Demonstrate automated vulnerability assessment workflows.
+- Classify vulnerabilities according to risk severity.
+- Present understandable mitigation recommendations.
+- Provide an extensible foundation for integrating security scanning tools.
 
-Web applications are widely used in almost every sector, including education, healthcare, banking, and e-commerce. Due to rapid development and frequent updates, many web applications are deployed with security flaws that can be exploited by attackers. Manual vulnerability assessment is time-consuming and requires expert knowledge, which is not always available. Therefore, there is a strong need for an automated and scalable solution that can efficiently detect common web application vulnerabilities. This project focuses on providing an automated framework that simplifies vulnerability detection and helps developers and security teams identify risks at an early stage.
+## ✨ Features
 
-### 2. Problem Statement
+- **Interactive Security Dashboard:** Displays scan summaries and vulnerability statistics.
+- **Simulated Vulnerability Scanning:** Demonstrates a scan-to-report workflow using dummy data.
+- **Common Vulnerability Examples:** Includes simulated SQL Injection and Cross-Site Scripting (XSS) findings.
+- **Risk Classification:** Categorizes findings as High, Medium, or Low risk.
+- **Visual Analytics:** Presents vulnerability severity through charts and summary cards.
+- **Integrated Tools Overview:** Showcases OWASP ZAP, SQLMap, and Nmap as planned scanning integrations.
+- **Mitigation Recommendations:** Provides guidance for addressing demonstrated security issues.
+- **Prepared Reports:** Displays sample findings for academic presentations.
+- **Responsive Dashboard Design:** Uses a modern interface with a purple-themed visual identity.
 
-Many organizations rely on manual or single-tool-based security testing, which is inefficient and error-prone. Existing vulnerability scanning tools often produce complex technical outputs that are difficult for non-security professionals to understand. Additionally, these tools are usually operated separately, making the overall assessment process time-consuming and unstructured. Small development teams and students often lack the resources and expertise to perform comprehensive security testing. As a result, web applications remain vulnerable to common attacks such as SQL Injection and Cross-Site Scripting (XSS).
+> **Important:** The current version demonstrates simulated scanning only. It does not perform real vulnerability scans unless actual scanner integrations are implemented separately.
 
-### 3. Proposed Solution
+## 🛠️ Technologies Used
 
-The proposed solution is a scalable automated framework that integrates multiple open-source vulnerability scanning tools into a single system. The framework will automatically scan web applications, detect common vulnerabilities, and classify them based on risk severity. A user-friendly dashboard will present scan results in an easy-to-understand format along with recommended mitigation steps. The system is designed to be scalable, allowing future integration of additional tools and security checks. This framework will reduce manual effort, improve accuracy, and make web security testing accessible to both technical and non-technical users.
+| Technology | Purpose |
+|---|---|
+| HTML5 | Dashboard structure |
+| CSS3 | Styling and responsive layouts |
+| JavaScript | Dashboard interactions and demo workflow |
+| Bootstrap 5 | UI components and layout |
+| Chart.js | Data visualization |
+| Bootstrap Icons | Interface icons |
+| Python and Flask | Planned backend |
+| OWASP ZAP, SQLMap, Nmap | Planned scanning integrations |
 
----
+## 📁 Project Structure
 
-## Features
-
-- Automated scanning workflow (demo)
-- SQL Injection detection (demo findings)
-- XSS detection (demo findings)
-- Risk classification: **High / Medium / Low**
-- Integrated tools presentation: OWASP ZAP, SQLMap, Nmap
-- User-friendly Bootstrap dashboard
-- Mitigation recommendations in reports
-- Live **dummy scan process** for presentations
-
----
-
-## Technologies
-
-| Layer | Technology |
-|-------|------------|
-| Frontend | HTML, CSS, JavaScript, Bootstrap 5 |
-| Charts | Chart.js |
-| Icons | Bootstrap Icons |
-| Planned backend | Python, Flask |
-| Planned scanners | OWASP ZAP, SQLMap, Nmap |
-
----
-
-## Project Structure
-
-```
-.
-├── index.html      # Dashboard UI
-├── styles.css      # Purple theme & layout
-├── app.js          # Dashboard logic + dummy scan demo
-└── README.md       # Project documentation
+```text
+WebVulnX-/
+├── index.html    # Main dashboard interface
+├── styles.css    # Styling and visual theme
+├── app.js        # Dashboard logic and simulated scan
+└── README.md     # Project documentation
 ```
 
----
+## 🚀 Getting Started
 
-## How to Run
+### Prerequisites
 
-1. Open the project folder.
-2. Double-click `index.html`, or run:
+- A modern web browser
+- Git (optional, for cloning the repository)
 
-```powershell
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/usmana0820/WebVulnX-.git
+```
+
+### 2. Navigate to the Project Directory
+
+```bash
+cd WebVulnX-
+```
+
+### 3. Launch the Dashboard
+
+Open `index.html` directly in your browser.
+
+Alternatively, on Windows, run:
+
+```bash
 start index.html
 ```
 
-No server install is required for the current frontend demo.
+No backend installation is required for the current frontend demonstration.
+
+## 🧪 Running the Dummy Scan Demo
+
+Use the simulated scan workflow to explore the dashboard during project demonstrations.
+
+1. Open `index.html` in your browser.
+2. Click **Try Dummy Scan** or use the Start Demo panel, if available.
+3. Select a demonstration scenario, where supported:
+   - **High Risk:** Simulated SQL Injection and XSS findings.
+   - **Medium Risk:** Example configuration or cookie issues.
+   - **Low Risk:** Example security-header issues.
+4. Observe the simulated scanning stages and risk classification.
+5. Open the prepared report to review the sample findings and recommendations.
+
+The scenarios illustrate how a security assessment interface could work; they are not evidence of actual vulnerabilities on a live website.
+
+## 📊 Dashboard Overview
+
+The dashboard is designed to present:
+
+- Total scans and vulnerability counts
+- High-, medium-, and low-risk summaries
+- Vulnerability severity charts
+- A list of prominent findings
+- Recent scan activity and risk indicators
+- The scanning and reporting workflow
+- Recommended mitigation steps
+
+## 🎨 Color Theme
+
+The interface uses a purple-focused visual identity.
+
+| Element | Color |
+|---|---|
+| Primary purple | `#5E2D89` |
+| High risk | Red |
+| Medium risk | Orange |
+| Low risk | Green |
+| Background | Light lavender and white |
+
+## 🔮 Future Enhancements
+
+- Develop a Python Flask backend and scanning API.
+- Integrate OWASP ZAP, SQLMap, and Nmap through controlled scan jobs.
+- Add scan configuration and job-status tracking.
+- Implement user authentication and persistent scan history.
+- Generate downloadable PDF and CSV reports.
+- Expand vulnerability checks and mitigation guidance.
+- Add automated tests and structured vulnerability reporting.
+
+## 🔐 Security and Responsible Use
+
+WebVulnX is an educational project intended to demonstrate web security assessment concepts.
+
+Always obtain explicit authorization before testing systems you do not own or administer. Real scanner integrations should include appropriate scope restrictions, validation, and safeguards to prevent unauthorized or disruptive testing.
+
+## 📬 Contact
+
+- **GitHub:** [@usmana0820](https://github.com/usmana0820)
+- **Email:** usmanazulfiqar20@gmail.com
+
+## 👩‍💻 Developer
+
+**Usmana Zulfiqar**
+
+Cybersecurity Concepts | Web Development | Automated Testing
 
 ---
 
-## Dummy Scan Demo (for presentations)
-
-Use this when showing supervisors or classmates how the scan → detect → report flow works.
-
-### Steps
-
-1. Open `index.html` in a browser.
-2. Click **Try Dummy Scan** (top right), or use the **Start Demo** panel.
-3. Optionally pick a preset:
-   - **High-risk site** — SQL Injection + XSS findings
-   - **Medium-risk site** — misconfiguration / cookie issues
-   - **Low-risk site** — minor header issues
-4. Watch the live process:
-   1. Automated Scan  
-   2. Integrated Tools  
-   3. Vulnerability Detection  
-   4. Risk Classification  
-   5. Reports & Recommendations  
-5. Open **View Prepared Report** to show the final findings table.
-
-> **Note:** This is a **safe dummy process** for demonstration only. It does not attack or scan real websites.
-
----
-
-## Dashboard Overview
-
-The dashboard includes:
-
-- Summary cards: Total Scans, Vulnerabilities, High / Medium / Low risk
-- Donut chart: vulnerabilities by severity
-- Top vulnerabilities list
-- Recent scans with risk badges
-- Detection workflow steps
-
----
-
-## Color Theme
-
-Inspired by the WebVulnX project poster:
-
-- Primary purple: `#5E2D89`
-- High risk: red
-- Medium risk: orange
-- Low risk: green
-- Background: light lavender / white panels
-
----
-
-## Future Work
-
-- Connect the dashboard to a real Flask backend
-- Integrate actual OWASP ZAP / SQLMap / Nmap scan jobs
-- User authentication and scan history storage
-- PDF/CSV report export
-- Additional vulnerability checks and tool plugins
-
----
-
-## Disclaimer
-
-WebVulnX’s current UI includes a **simulated scan demo** for academic presentation. Always obtain proper authorization before performing any real security testing on a system you do not own.
+*WebVulnX — Making web security findings easier to understand, analyze, and communicate.*
